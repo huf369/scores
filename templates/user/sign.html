@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 引入 jQuery Mobile 样式 -->
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- 引入 jQuery 库 -->
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- 引入 jQuery Mobile 库 -->
+    <script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        #main {position: absolute;width:400px;height:200px;left:50%;top:50%;margin-left:-200px;margin-top:-100px;/* border:1px solid #00F */}
+    </style>
+    <title>注册</title>
+</head>
+<body>
+    <script type="text/javascript">
+         function checkpassword() {
+            if ($('#userpassword').val() == $('#userpassword2').val()) {
+                return true;
+            } else {
+                alert("两次输入的密码不一致");
+                return false;
+            }
+        }
+    </script>
+
+    <div id="main" align="center" width="100%" class="ui-content">
+        <form method="post" action="/user/sign" onsubmit="return checkpassword();">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>用户名</td>
+                        <td><input type="text" name="username"> </td>
+                    </tr>
+                    <tr>
+                        <td>输入密码</td>
+                        <td><input type="password" name="userpassword", id="userpassword"> </td>
+                    </tr>
+                    <tr>
+                        <td>确认密码</td>
+                        <td><input type="password" name="userpassword2"  id="userpassword2"> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="注册" data-transition="slide"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 引入 jQuery Mobile 样式 -->
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- 引入 jQuery 库 -->
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- 引入 jQuery Mobile 库 -->
+    <script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>Person</title>
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header">
+    <h1>我的儿子们</h1>
+  </div>
+   <div data-role="main" class="ui-content">
+       <table>
+           {% for person in persons %}
+                <tr>
+                    <td> {{ person.name }} </td>
+                    <td> {{ person.scores }} </td>
+                    <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a></td>
+                </tr>
+           {% endfor %}
+       </table>
+  </div>
+</div>
+</body>
+</html>
