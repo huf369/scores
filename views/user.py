@@ -1,5 +1,6 @@
 from flask import request, render_template, redirect, url_for, session
 from sqlalchemy import and_
+from datetime import timedelta
 
 from app import db
 from . import user_app
@@ -14,7 +15,6 @@ def add_user():
         username = request.form.get('username')
         password = request.form.get('userpassword')
         users = {'username': username,  'password ': password}
-
         userEntity = UserEntity(name=username, password=password)
         db.session.add(userEntity)
         return render_template('/person/list.html', user=users)
@@ -27,6 +27,10 @@ def login():
     else:
         username = request.form.get('username')
         password = request.form.get('userpassword')
-        userInfo = UserEntity.query.filter_by(and_(UserEntity.name==username, UserEntity.password==password)).first()
-        session['user'] = userInfo.id
-        return redirect(url_for('/person/list'))
+        filters = {'name':username, 'password':password}
+        #rd = UserEntity.query.filter(and_(UserEntity.name==username, UserEntity.password==password)).first()
+        rd = UserEntity.query.filter_by(**filters).first()
+        if not rd:
+            return render_template('/user/login.html', username= username, existError=True)
+        session['user'] = rd.id
+        return redirect(url_for('person.list'))
