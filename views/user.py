@@ -1,7 +1,4 @@
 from flask import request, render_template, redirect, url_for, session
-from sqlalchemy import and_
-from datetime import timedelta
-
 from app import db
 from . import user_app
 from model.models import UserEntity

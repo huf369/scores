@@ -12,20 +12,51 @@
     <title>Person</title>
 </head>
 <body>
+<script type="text/javascript">
+    function verify() {
+        if ($('#personname').val() == "") {
+            alert("姓名不能为空");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function addperson() {
+        $.ajax({
+            url:"/person/add",
+            type:"post",
+            async:false,
+            success: function(data){
+                $(this).addClass("done"); alert(data);
+            }
+        });
+    }
+</script>
 <div data-role="page">
   <div data-role="header">
     <h1>我的儿子们</h1>
   </div>
-   <div data-role="main" class="ui-content">
+  <div data-role="main" class="ui-content">
        <table>
            {% for person in persons %}
                 <tr>
                     <td> {{ person.name }} </td>
                     <td> {{ person.scores }} </td>
-                    <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a></td>
+                    <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">删除</a></td>
                 </tr>
            {% endfor %}
        </table>
+
+  </div>
+  <div data-role="footer">
+      <h1><a href="#add" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">添加</a></h1>
+      <div data-role="popup" id="add" style="margin: 20rem, width=400rem">
+          <form action="/person/add" onsubmit="return verify()" method="post">
+              姓名：<input type="text" name="personname" id="personname">
+              <input type="submit" value="添加" data-transition="slide">
+          </form>
+      </div>
   </div>
 </div>
 </body>
