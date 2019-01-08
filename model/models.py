@@ -1,3 +1,4 @@
+from copy import deepcopy
 from app import db
 
 class UserEntity(db.Model):
@@ -15,6 +16,13 @@ class UserEntity(db.Model):
     def __repr__(self):
         return '<User %r>' % self.id
 
+    def to_json(self):
+        dict = deepcopy(self.__dict__)
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
+
 class PersonEntity(db.Model):
     __tablename__ = "PERSON"
     id = db.Column(db.Integer, name='PERSON_ID', primary_key=True, unique=True)
@@ -30,6 +38,12 @@ class PersonEntity(db.Model):
     def __repr__(self):
         return '<Person %r>' % self.id
 
+    def to_json(self):
+        dict = deepcopy(self.__dict__)
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
 
 class ItemEntity(db.Model):
     __tablename__ = "ITEMS"
@@ -43,6 +57,12 @@ class ItemEntity(db.Model):
 
     def __repr__(self):
         return '<Items %r>' % self.id
+
+    def to_json(self):
+        dict = deepcopy(self.__dict__)
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
 
 
 class PersonItemEntity(db.Model):
@@ -61,6 +81,12 @@ class PersonItemEntity(db.Model):
     def __repr__(self):
         return '<Person Items %r>' % self.person
 
+    def to_json(self):
+        dict = deepcopy(self.__dict__)
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
 
 class HistoryEntity(db.Model):
     __tablename__ = "HISTORY"
@@ -78,3 +104,9 @@ class HistoryEntity(db.Model):
 
     def __repr__(self):
         return '<History %r>' % self.id
+
+    def to_json(self):
+        dict = deepcopy(self.__dict__)
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict

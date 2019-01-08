@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, session
+from flask import request, render_template, redirect, url_for, session, jsonify
 from app import db
 from . import person_app
 from model.models import PersonEntity
@@ -14,7 +14,10 @@ def add():
     personname = request.values.get('personname')
     personEntity = PersonEntity(name=personname, user=session.get('user'), score='0')
     db.session.add(personEntity)
-    return redirect(url_for('person.list'))
+    #return redirect(url_for('person.list'))
+    rd = db.session.query(PersonEntity).filter(PersonEntity.name==personname).first()
+    return jsonify(rd.to_json()), 200
+
 
 @person_app.route('delete', methods=['GET',])
 def delete():

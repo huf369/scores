@@ -29,7 +29,7 @@
             data:{personname:name},
             async:false,
             success: function(data){
-                alert(data);
+                $("#personsbody").appendChild('<tr><td>aa</td><td>s</td><td>t/td></tr>');
             }
         });
     }
@@ -40,13 +40,15 @@
   </div>
   <div data-role="main" class="ui-content">
        <table>
-           {% for person in persons %}
-                <tr>
-                    <td> {{ person.name }} </td>
-                    <td> {{ person.scores }} </td>
-                    <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a>&nbsp;&nbsp;<a href="/person/delete?id={{ person.id }}">删除</a></td>
-                </tr>
-           {% endfor %}
+           <tbody id="personsbody">
+               {% for person in persons %}
+                    <tr>
+                        <td> {{ person.name }} </td>
+                        <td> {{ person.scores }} </td>
+                        <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a>&nbsp;&nbsp;<a href="/person/delete?id={{ person.id }}">删除</a></td>
+                    </tr>
+               {% endfor %}
+           </tbody>
        </table>
 
   </div>
