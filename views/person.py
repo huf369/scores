@@ -5,14 +5,20 @@ from model.models import PersonEntity
 
 @person_app.route('list')
 def list():
-    persons = [{'id': '1', 'name': '胡天航', 'scores': "100"}, {'id': '1', 'name': '胡天奥', 'scores': "120"}]
     filters = {'user': session.get('user')}
     persons = PersonEntity.query.filter_by(**filters)
     return render_template('/person/list.html', persons=persons)
 
 @person_app.route('add', methods=['POST',])
 def add():
-    personname = request.form.get('personname')
-    personEntiry = PersonEntity(name=personname, user=session.get('user'), score='0')
-    db.session.add(personEntiry)
+    personname = request.values.get('personname')
+    personEntity = PersonEntity(name=personname, user=session.get('user'), score='0')
+    db.session.add(personEntity)
+    return redirect(url_for('person.list'))
+
+@person_app.route('delete', methods=['GET',])
+def delete():
+    id = request.values.get('id')
+    if id is not None:
+        db.session.query(PersonEntity).filter(PersonEntity.id==id).delete()
     return redirect(url_for('person.list'))
