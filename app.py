@@ -1,4 +1,4 @@
-from flask import Flask, session, redirect
+from flask import Flask, session, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import timedelta
@@ -22,10 +22,13 @@ app.register_blueprint(person_app, url_prefix='/person')
 
 @app.before_request
 def before_request():
-    if 'user' in session:
-        pass
+    # 白名单设置,判断为登录页面时
+    if request.path == "/user/login":
+        return None
+    elif session.get("user"):
+        return None
     else:
-        redirect('/user/login')
+        return redirect(url_for('user.login'))
 
 @app.route('/')
 def hello_world():
@@ -33,5 +36,5 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
     session.permanent = True

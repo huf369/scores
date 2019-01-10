@@ -23,13 +23,29 @@
     }
 
     function addperson(name) {
+        if (false == verify()) {
+            return;
+        }
         $.ajax({
             url:"/person/add",
             type:"post",
             data:{personname:name},
             async:false,
             success: function(data){
-                $("#personsbody").appendChild('<tr><td>aa</td><td>s</td><td>t/td></tr>');
+                $("#personsbody").append('<tr id='+data.id+'><td>'+ data.name + '</td><td>'+ data.score + '</td>' +
+                    '<td><a href=\"/person/detail?id=' + data.id + '\">明细</a>&nbsp;&nbsp;<a href=\"/person/history?id='+data.id+'\">历史</a>&nbsp;&nbsp;<a href=\"\" onclick=\"javascript:deleteperson('+data.id+')\">删除</a></td></tr>');
+            }
+        });
+    }
+
+    function deleteperson(id) {
+        $.ajax({
+            url:"/person/delete",
+            type:"get",
+            data:{id:id},
+            async:false,
+            success: function(){
+                $("#"+id).remove();
             }
         });
     }
@@ -42,10 +58,10 @@
        <table>
            <tbody id="personsbody">
                {% for person in persons %}
-                    <tr>
+                    <tr id="{{ person.id }}">
                         <td> {{ person.name }} </td>
-                        <td> {{ person.scores }} </td>
-                        <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a>&nbsp;&nbsp;<a href="/person/delete?id={{ person.id }}">删除</a></td>
+                        <td> {{ person.score }} </td>
+                        <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a>&nbsp;&nbsp;<a href="" onclick="javascript:deleteperson({{ person.id }})">删除</a></td>
                     </tr>
                {% endfor %}
            </tbody>
@@ -53,13 +69,11 @@
 
   </div>
   <div data-role="footer">
-      <a onclick="javascript:addperson('wang')">添加1</a>
+
       <h1><a href="#add" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">添加</a></h1>
       <div data-role="popup" id="add" style="margin: 20rem, width=400rem">
-          <form action="/person/add" onsubmit="return verify()" method="post">
               姓名：<input type="text" name="personname" id="personname">
-              <input type="submit" value="添加" data-transition="slide">
-          </form>
+              <input onclick="javascript:addperson($('#personname').val())" type="submit" value="添加" data-transition="slide">
       </div>
   </div>
 </div>

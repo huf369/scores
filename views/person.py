@@ -16,7 +16,7 @@ def add():
     db.session.add(personEntity)
     #return redirect(url_for('person.list'))
     rd = db.session.query(PersonEntity).filter(PersonEntity.name==personname).first()
-    return jsonify(rd.to_json()), 200
+    return jsonify(rd.to_json())
 
 
 @person_app.route('delete', methods=['GET',])

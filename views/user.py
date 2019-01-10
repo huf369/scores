@@ -30,4 +30,4 @@ def login():
         if not rd:
             return render_template('/user/login.html', username= username, existError=True)
         session['user'] = rd.id
-        return redirect(url_for('person.list'))
+        return redirect(url_for('person.list'), 302)
