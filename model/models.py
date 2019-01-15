@@ -48,10 +48,12 @@ class PersonEntity(db.Model):
 class ItemEntity(db.Model):
     __tablename__ = "ITEMS"
     id = db.Column(db.Integer, name='ITEMS_ID', primary_key=True, unique=True)
+    user = db.Column(db.Integer, name='ITEMS_USER', unique=True)
     name = db.Column(db.String(30), name='ITEMS_NAME', unique=True)
     score = db.Column(db.Integer, name='ITEMS_SCORE', unique=True)
 
-    def __init__(self, name, score):
+    def __init__(self, user, name, score):
+        self.user = user
         self.name = name
         self.score = score
 

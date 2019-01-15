@@ -1,0 +1,1 @@
+DATABASE_PATH = '/Users/teagreen/PycharmProjects/scores/assets/scores.sqlite3'

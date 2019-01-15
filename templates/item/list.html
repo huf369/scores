@@ -27,19 +27,32 @@
         return true
     }
 
+    function editItem(item) {
+        $("#itemid").value(item.id);
+        $("#itemname").value(item.name);
+        $("#itemcore").value(item.score);
+    }
+
     function additem(name, score) {
         if (false == verify()) {
             return;
         }
+        id = $("itemid").val();
         $.ajax({
-            url:"/person/add",
+            url:"/item/add",
             type:"post",
-            data:{itemname:name,itemscore:score},
+            data:{itemid:id,itemname:name,itemscore:score},
             async:false,
             success: function(data){
-                $("#itemsbody").append('<tr id='+data.id+'><td>'+ data.name + '</td><td>'+ data.score + '</td>' +
-                    '<td><a href=\"/person/detail?id=' + data.id + '\">明细</a>&nbsp;&nbsp;<a href=\"/person/history?id='+data.id+'\">历史</a>&nbsp;&nbsp;<a href=\"\" onclick=\"javascript:deleteperson('+data.id+')\">删除</a></td></tr>');
+                if (id == 0) {
+                    $("#itemsbody").append('<tr id='+data.id+'><td>'+ data.name + '</td><td>'+ data.score + '</td>' +
+                    '<td><a href=\"#add\" onclick=\"editItem(data)\">明细</a>&nbsp;&nbsp;<a href=\"\" onclick=\"javascript:deleteitem('+data.id+')\">删除</a></td></tr>');
+                } else {
+                    $("#"+id>td).first().val(name);
+                    $("#"+id>td).first().next.val(score);
+                }
             }
+
         });
     }
 
@@ -66,7 +79,7 @@
                     <tr id="{{ item.id }}">
                         <td> {{ item.name }} </td>
                         <td> {{ item.score }} </td>
-                        <td><a href="#add" data-rel="popup">编辑</a>&nbsp;&nbsp;<a href="" onclick="javascript:deleteitem({{ item.id }})">删除</a></td>
+                        <td><a href="#add" data-rel="popup" onclick="">编辑</a>&nbsp;&nbsp;<a href="" onclick="javascript:deleteitem({{ item.id }})">删除</a></td>
                     </tr>
                {% endfor %}
            </tbody>
@@ -76,9 +89,9 @@
   <div data-role="footer">
       <h1><a href="#add" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">添加</a></h1>
       <div data-role="popup" id="add" style="margin: 20rem, width=400rem">
+          <input type="hidden" name="itemid" id="itemid">
           项目：<input type="text" name="itemname" id="itemname">
           分数：<input type="text" name="itemscore" id="itemcore">
-          <input>
           <input onclick="javascript:additem($('#itemname').val(),$('#itemcore').val())" type="submit" value="添加" data-transition="slide">
       </div>
   </div>
