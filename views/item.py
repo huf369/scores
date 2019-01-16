@@ -14,11 +14,15 @@ def add():
     id = request.values.get('itemid')
     name = request.values.get('itemname')
     score = request.values.get('itemscore')
-    if id=='0':
-        itemEntity = ItemEntity(name=name, score=score)
+    user = session.get('user')
+    if id=='':
+        itemEntity = ItemEntity(user=user, name=name, score=score)
         db.session.add(itemEntity)
+        db.session.flush()
+        db.session.commit()
     else:
-        db.session.query(ItemEntity).filter(ItemEntity.id == id).first()
+        filters = {'user': session.get('user'), 'id':id}
+        itemEntity = ItemEntity.filter_by(**filters).first()
 
     return jsonify(itemEntity.to_json())
 
