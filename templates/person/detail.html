@@ -12,6 +12,19 @@
     <title>Title</title>
 </head>
 <body>
+    <div data-role="main" class="ui-content">
+       <table>
+           <tbody id="personsbody">
+               {% for person in persons %}
+                    <tr id="{{ person.id }}">
+                        <td> {{ person.name }} </td>
+                        <td> {{ person.score }} </td>
+                        <td><a href="/person/detail?id={{ person.id }}">明细</a>&nbsp;&nbsp;<a href="/person/history?id={{ person.id }}">历史</a>&nbsp;&nbsp;<a href="" onclick="javascript:deleteperson({{ person.id }})">删除</a></td>
+                    </tr>
+               {% endfor %}
+           </tbody>
+       </table>
 
+  </div>
 </body>
 </html>

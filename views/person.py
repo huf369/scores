@@ -14,6 +14,7 @@ def add():
     personname = request.values.get('personname')
     personEntity = PersonEntity(name=personname, user=session.get('user'), score='0')
     db.session.add(personEntity)
+    db.session.commit()
     #return redirect(url_for('person.list'))
     rd = db.session.query(PersonEntity).filter(PersonEntity.name==personname).first()
     return jsonify(rd.to_json())
@@ -24,4 +25,5 @@ def delete():
     id = request.values.get('id')
     if id is not None:
         db.session.query(PersonEntity).filter(PersonEntity.id==id).delete()
+        db.session.commit()
     return redirect(url_for('person.list'))

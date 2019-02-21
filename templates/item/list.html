@@ -50,11 +50,12 @@
             url:"/item/add",
             type:"post",
             data:{itemid:id,itemname:name,itemscore:score},
+            dataType:"json",
             async:false,
-            success: function(data){
+            success: function(result){
                 if (id == 0) {
-                    $("#itemsbody").append('<tr id='+data.id+'><td>'+ data.name + '</td><td>'+ data.score + '</td>' +
-                    '<td><a href=\"#add\" onclick=\"editItem(data)\">明细</a>&nbsp;&nbsp;<a href=\"\" onclick=\"javascript:deleteitem('+data.id+')\">删除</a></td></tr>');
+                    $("#itemsbody").append('<tr id='+result.id+'><td>'+ result.name + '</td><td>'+ result.score + '</td>' +
+                    '<td><a href=\"#add\" data-rel=\"popup\" onclick=\"javascript:editItem(result)\">编辑</a>&nbsp;&nbsp;<a href=\"\" onclick=\"javascript:deleteitem('+result.id+')\">删除</a></td></tr>');
                 } else {
                     $("#"+id>td).first().val(name);
                     $("#"+id>td).first().next.val(score);
@@ -100,7 +101,7 @@
           <input type="hidden" name="itemid" id="itemid">
           项目：<input type="text" name="itemname" id="itemname">
           分数：<input type="text" name="itemscore" id="itemscore">
-          <input onclick="javascript:additem()" type="button" value="添加" data-transition="slide">
+          <input onclick="javascript:additem()" type="submit" value="添加" data-transition="slide">
       </div>
   </div>
 </div>

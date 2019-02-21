@@ -20,10 +20,10 @@ def add():
         db.session.add(itemEntity)
         db.session.flush()
         db.session.commit()
+        itemEntity=db.session.query(ItemEntity).filter(ItemEntity.id == itemEntity.id).first()
     else:
         filters = {'user': session.get('user'), 'id':id}
         itemEntity = ItemEntity.filter_by(**filters).first()
-
     return jsonify(itemEntity.to_json())
 
 
@@ -32,4 +32,5 @@ def delete():
     id = request.values.get('id')
     if id is not None:
         db.session.query(ItemEntity).filter(ItemEntity.id==id).delete()
+        db.session.commit()
     return redirect(url_for('person.list'))
